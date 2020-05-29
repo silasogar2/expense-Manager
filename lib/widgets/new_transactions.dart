@@ -1,11 +1,34 @@
 import 'package:flutter/material.dart';
 
-class NewTransaction extends StatelessWidget {
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+class NewTransaction extends StatefulWidget {
   final Function addTxt;
 
   NewTransaction(this.addTxt);
+
+  @override
+  _NewTransactionState createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
+  final titleController = TextEditingController();
+
+  final amountController = TextEditingController();
+
+  void submitData() {
+    final finalTxt = titleController.text;
+    final finalAmt = double.parse(amountController.text);
+
+    if (finalTxt.isEmpty || finalAmt <= 0) {
+      return;
+    }
+
+    widget.addTxt(
+      finalTxt,
+      finalAmt,
+    );
+
+    Navigator.of(context).pop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +44,13 @@ class NewTransaction extends StatelessWidget {
               ),
               style: TextStyle(fontSize: 20),
               controller: titleController,
+              onSubmitted: (_) => submitData(),
             ),
             TextField(
               decoration: InputDecoration(labelText: 'Amount'),
               controller: amountController,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              onSubmitted: (_) => submitData(),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -32,14 +58,7 @@ class NewTransaction extends StatelessWidget {
                 FlatButton(
                   child: Text('Add Transaction'),
                   textColor: Colors.lightBlueAccent,
-                  onPressed: () {
-                    addTxt(
-                      titleController.text,
-                      double.parse(amountController.text),
-                    );
-//                print(titleController.text);
-//                print(amountController.text);
-                  },
+                  onPressed: submitData,
                 ),
               ],
             )
