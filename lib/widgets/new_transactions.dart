@@ -21,13 +21,14 @@ class _NewTransactionState extends State<NewTransaction> {
     final finalTxt = _titleController.text;
     final finalAmt = double.parse(_amountController.text);
 
-    if (finalTxt.isEmpty || finalAmt <= 0) {
+    if (finalTxt.isEmpty || finalAmt <= 0 || _selectedDate == null) {
       return;
     }
 
     widget.addTxt(
       finalTxt,
       finalAmt,
+      _selectedDate,
     );
 
     Navigator.of(context).pop();
@@ -43,7 +44,9 @@ class _NewTransactionState extends State<NewTransaction> {
       if (pickedDate == null) {
         return;
       }
-      _selectedDate = pickedDate;
+      setState(() {
+        _selectedDate = pickedDate;
+      });
     });
   }
 
@@ -73,10 +76,12 @@ class _NewTransactionState extends State<NewTransaction> {
               height: 70,
               child: Row(
                 children: <Widget>[
-                  Text(
-                    _selectedDate == null
-                        ? 'No date Chosen'
-                        : DateFormat.yMMMd().format(_selectedDate),
+                  Expanded(
+                    child: Text(
+                      _selectedDate == null
+                          ? 'No date Chosen'
+                          : DateFormat.yMMMd().format(_selectedDate),
+                    ),
                   ),
                   FlatButton(
                     textColor: Theme.of(context).primaryColor,
