@@ -51,7 +51,7 @@ class Chart extends StatelessWidget {
         children: groupedTransactionValues.map((data) {
 //          return Text('${data['day']} : ${data['amount']}');
           double val = data['amount'] as double;
-          return ChartBar(data['day'], data['amount'], 0.5);
+          return ChartBar(data['day'], data['amount'], data['']);
         }).toList(),
       ),
     );
