@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'widgets/transaction_list.dart';
 import 'models/transaction.dart';
 import 'widgets/new_transactions.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 
 void main() => runApp(
       MyApp(),
